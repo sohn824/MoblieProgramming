@@ -7,17 +7,18 @@ public class TacticsMove : MonoBehaviour
     List<Tile> selectableTiles = new List<Tile>();
     GameObject[] tiles;
     Stack<Tile> path = new Stack<Tile>();
+    [HideInInspector]
     public Tile CurrentTile;
 
     private int moveRange = 20; //한 번에 움직일 수 있는 타일 수
     private float moveSpeed = 2.0f;
     private float halfHeight = 0;
-
+    [HideInInspector]
     public bool IsMoving = false; //움직이는 중에는 알고리즘을 실행하지 않기 위해 체크할 bool변수
 
     Vector3 velocity = new Vector3();
     Vector3 headingDirection = new Vector3();
-
+    [HideInInspector]
     public Tile actualTargetTile; //실제 타겟 타일
 
     protected void Initialize()

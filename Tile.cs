@@ -10,6 +10,7 @@ public class Tile : MonoBehaviour
     public bool IsSelectable = false;
 
     public List<Tile> AdjacencyList = new List<Tile>(); //Adjacency List = 인접 리스트
+    public int tileIndex = 0;
 
     //BFS (Breath First Search)
     public bool IsVisited = false;
@@ -63,6 +64,14 @@ public class Tile : MonoBehaviour
                 }
             }
         }
+    }
+    public int GetTileIndex()
+    {
+        return tileIndex;
+    }
+    public void SetTileIndex(int index)
+    {
+        tileIndex = index;
     }
 
 }

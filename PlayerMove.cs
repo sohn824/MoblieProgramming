@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class PlayerMove : TacticsMove
 {
-
+    private int width;
+    private int height;
 	// Use this for initialization
 	void Start ()
     {
+        width = GameObject.Find("MapCreater").GetComponent<MapCreater>().Width;
+        height = GameObject.Find("MapCreater").GetComponent<MapCreater>().Height;
         Initialize();
 	}
 	
@@ -50,25 +53,160 @@ public class PlayerMove : TacticsMove
     private void chechKeyBoard() //키보드 이동
     {
         GetCurrentTile(); //현재 타일 정보 얻어옴
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if(CurrentTile.GetTileIndex() == 1) //Bottom Left
         {
-            CurrentTile.CheckTile(Vector3.forward, null); 
-            MoveToTile(CurrentTile.AdjacencyList[0]); //위쪽 방향
+            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                return;
+            }
+            if(Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[0]);
+            }
+            if(Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[1]);
+            }
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if(CurrentTile.GetTileIndex() == width) //Bottom Right
         {
-            CurrentTile.CheckTile(Vector3.back, null);
-            MoveToTile(CurrentTile.AdjacencyList[1]); //아래쪽 방향
+            if(Input.GetKeyDown(KeyCode.RightArrow)||Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                return;
+            }
+            if(Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[0]);
+            }
+            if(Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[1]);
+            }
         }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        else if(CurrentTile.GetTileIndex() < width) //Bottom
         {
-            CurrentTile.CheckTile(Vector3.left, null);
-            MoveToTile(CurrentTile.AdjacencyList[2]); //왼쪽 방향
+            if(Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                return;
+            }
+            if(Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[0]);
+            }
+            if(Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[1]);
+            }
+            if(Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[2]);
+            }
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if(CurrentTile.GetTileIndex() == width * (height-1) + 1) //Top Left
         {
-            CurrentTile.CheckTile(Vector3.right, null);
-            MoveToTile(CurrentTile.AdjacencyList[3]); //오른쪽 방향
+            if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                return;
+            }
+            if(Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[0]);
+            }
+            if(Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[1]);
+            }
+        }
+        else if(CurrentTile.GetTileIndex() == width * height) //Top Right
+        {
+            if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                return;
+            }
+            if(Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[0]);
+            }
+            if(Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[1]);
+            }
+        }
+        else if(CurrentTile.GetTileIndex() < width * height && CurrentTile.GetTileIndex() > width * (height -1) + 1) //Top
+        {
+            if(Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                return;
+            }
+            if(Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[0]);
+            }
+            if(Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[1]);
+            }
+            if(Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[2]);
+            }
+        }
+        else if(CurrentTile.GetTileIndex() % width == 1) //Left
+        {
+            if(Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                return;
+            }
+            if(Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[0]);
+            }
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[1]);
+            }
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[2]);
+            }
+        }
+        else if(CurrentTile.GetTileIndex() % width == 0) //Right
+        {
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                return;
+            }
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[0]);
+            }
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[1]);
+            }
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[2]);
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[0]);
+            }
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[1]);
+            }
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[2]);
+            }
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                MoveToTile(CurrentTile.AdjacencyList[3]);
+            }
         }
     }
 }

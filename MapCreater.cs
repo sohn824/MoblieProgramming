@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class MapCreater : MonoBehaviour
 {
-    [SerializeField]
-    private int width = 12;
-    [SerializeField]
-    private int height = 12;
+    public int Width = 12;
+    public int Height = 12;
     [SerializeField]
     private GameObject tile;
     [SerializeField]
@@ -20,11 +18,12 @@ public class MapCreater : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        for(int i=0; i<width; i++)
+        for(int i=0; i<Width; i++)
         {
-            for(int j=0; j<height; j++)
+            for(int j=0; j<Height; j++)
             {
-                Instantiate(tile, new Vector3(i, 0, j), Quaternion.identity, GameObject.Find("Map").transform);
+                GameObject newTile = Instantiate(tile, new Vector3(i, 0, j), Quaternion.identity, GameObject.Find("Map").transform);
+                newTile.gameObject.GetComponent<Tile>().SetTileIndex((i+1) + Height * j);
             }
         }
         setPlayer();
@@ -32,7 +31,7 @@ public class MapCreater : MonoBehaviour
 	
     private void setPlayer()
     {
-        Instantiate(player, new Vector3(Random.Range(0, width), 1.5f, Random.Range(0, height)), Quaternion.identity);
-        Instantiate(enemy, new Vector3(Random.Range(0, width), 1.5f, Random.Range(0, height)), Quaternion.identity);
+        Instantiate(player, new Vector3(Random.Range(0, Width), 1.5f, Random.Range(0, Height)), Quaternion.identity);
+        Instantiate(enemy, new Vector3(Random.Range(0, Width), 1.5f, Random.Range(0, Height)), Quaternion.identity);
     }
 }
